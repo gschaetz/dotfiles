@@ -52,6 +52,11 @@ alias denv='eval $(docker-machine env)'
 alias drun='docker run -i -t --rm'
 alias drmut='docker rmi $(docker images -q -f dangling=true)'
 alias dm='docker-machine'
+alias ds='docker stack'
+alias dexec='docker exec'
+
+# history
+alias h='history'
 
 # IP addresses
 alias ip='dig +short myip.opendns.com @resolver1.opendns.com'
