@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-
-# put scripts to run before the computer goes to sleep
-~kal/.dotfiles/bin/berunda-umount-shares
-
-echo going to sleep now

@@ -1,4 +1,7 @@
 # .bashrc
+
+export DOTFILES=$HOME/.dotfiles
+
 function source_files() {
   local file
 

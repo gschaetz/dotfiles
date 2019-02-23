@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-
-ping -q -c1 berunda >/dev/null || exit; # server not up
-
-# unmount only when it's mounted
-mount | grep -q //kal@berunda/media && umount //kal@berunda/media
-mount | grep -q //kal@berunda/public && umount //kal@berunda/public
-mount | grep -q //kal@berunda/attic && umount //kal@berunda/attic
-mount | grep -q //kal@berunda/home && umount //kal@berunda/home
