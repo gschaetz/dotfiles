@@ -54,6 +54,7 @@ alias drmut='docker rmi $(docker images -q -f dangling=true)'
 alias dm='docker-machine'
 alias ds='docker stack'
 alias dexec='docker exec'
+alias dps='docker ps'
 
 # history
 alias h='history'
