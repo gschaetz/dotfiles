@@ -8,4 +8,4 @@ shopt -s no_empty_cmd_completion
 shopt -s nocaseglob
 
 # use vi style line editting
-set -o vi
+set -o emacs
