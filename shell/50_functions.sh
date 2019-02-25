@@ -5,6 +5,102 @@ function tre() {
   tree -aC -I '.git|node_modules|bower_components' --dirsfirst "$@" | less;
 }
 
+# Simple calculator
+calc() {
+	local result=""
+	result="$(printf "scale=10;%s\\n" "$*" | bc --mathlib | tr -d '\\\n')"
+	#						└─ default (when `--mathlib` is used) is 20
+
+	if [[ "$result" == *.* ]]; then
+		# improve the output for decimal numbers
+		# add "0" for cases like ".5"
+		# add "0" for cases like "-.5"
+		# remove trailing zeros
+		printf "%s" "$result" |
+			sed -e 's/^\./0./'  \
+			-e 's/^-\./-0./' \
+			-e 's/0*$//;s/\.$//'
+	else
+		printf "%s" "$result"
+	fi
+	printf "\\n"
+}
+
+ Create a new directory and enter it
+mkd() {
+	mkdir -p "$@"
+	cd "$@" || exit
+}
+
+# Make a temporary directory and enter it
+tmpd() {
+	local dir
+	if [ $# -eq 0 ]; then
+		dir=$(mktemp -d)
+	else
+		dir=$(mktemp -d -t "${1}.XXXXXXXXXX")
+	fi
+	cd "$dir" || exit
+}
+
+# Create a .tar.gz archive, using `zopfli`, `pigz` or `gzip` for compression
+targz() {
+	local tmpFile="${1%/}.tar"
+	tar -cvf "${tmpFile}" --exclude=".DS_Store" "${1}" || return 1
+
+	size=$(
+	stat -f"%z" "${tmpFile}" 2> /dev/null; # OS X `stat`
+	stat -c"%s" "${tmpFile}" 2> /dev/null # GNU `stat`
+	)
+
+	local cmd=""
+	if (( size < 52428800 )) && hash zopfli 2> /dev/null; then
+		# the .tar file is smaller than 50 MB and Zopfli is available; use it
+		cmd="zopfli"
+	else
+		if hash pigz 2> /dev/null; then
+			cmd="pigz"
+		else
+			cmd="gzip"
+		fi
+	fi
+
+	echo "Compressing .tar using \`${cmd}\`…"
+	"${cmd}" -v "${tmpFile}" || return 1
+	[ -f "${tmpFile}" ] && rm "${tmpFile}"
+	echo "${tmpFile}.gz created successfully."
+}
+
+# Determine size of a file or total size of a directory
+fs() {
+	if du -b /dev/null > /dev/null 2>&1; then
+		local arg=-sbh
+	else
+		local arg=-sh
+	fi
+	# shellcheck disable=SC2199
+	if [[ -n "$@" ]]; then
+		du $arg -- "$@"
+	else
+		du $arg -- .[^.]* *
+	fi
+}
+
+# Use feh to nicely view images
+openimage() {
+	local types='*.jpg *.JPG *.png *.PNG *.gif *.GIF *.jpeg *.JPEG'
+
+	cd "$(dirname "$1")" || exit
+	local file
+	file=$(basename "$1")
+
+	feh -q "$types" --auto-zoom \
+		--sort filename --borderless \
+		--scale-down --draw-filename \
+		--image-bg black \
+		--start-at "$file"
+}
+
 # run a git command on all git repo under the current repo
 function gitr() {
   local gitcmd=$1
@@ -63,7 +159,7 @@ function lastweek() {
   # hold buffer to pattern buffer
   x
   # if pattern buffer has the right week number, print the buffer of all lines
-  /'"$last_week"'/ p
+  /'"$last_week"'/ pdif
   ' $done_file
 }
 
