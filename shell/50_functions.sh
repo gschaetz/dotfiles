@@ -26,7 +26,7 @@ calc() {
 	printf "\\n"
 }
 
- Create a new directory and enter it
+# Create a new directory and enter it
 mkd() {
 	mkdir -p "$@"
 	cd "$@" || exit
