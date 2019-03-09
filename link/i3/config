@@ -176,7 +176,7 @@ bindsym XF86MonBrightnessDown exec xbacklight -dec 10 # decrease screen brightne
  bindsym $mod+x exec "xautolock -locknow"
  bindsym $mod+KP_Enter exec "xautolock -locknow"
 # Lock after timeout
- exec --no-startup-id "~/.config/i3/autolock"
+ exec --no-startup-id "~/.i3/autolock"
 # Lock on suspend:
  exec --no-startup-id "xss-lock -- i3lock -e -d -c 000000"
 
