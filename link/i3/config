@@ -93,7 +93,7 @@ bindsym $mod+a focus parent
 # focus the child container
 #bindsym $mod+d focus child
 
-set $workspace1 "1: terminals"
+set $workspace1 "1: terminals  "
 set $workspace2 "2: firefox "
 set $workspace3 "3: vscode"
 # switch to workspace
