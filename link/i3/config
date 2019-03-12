@@ -211,7 +211,7 @@ bindsym XF86MonBrightnessDown exec xbacklight -dec 10 # decrease screen brightne
  exec --no-startup-id "xss-lock -- i3lock -e -d -c 000000"
 
 # Pull up rofi menu
-bindsym $mod+F2 exec rofi -show run -lines 3 -eh 2 -width 100 -padding 800 -opacity "85" -bw 0 -bc "$bg-color" -bg "$bg-color" -fg "$text-color" -hlbg "$bg-color" -hlfg "#9575cd" -font "System San Francisco Display 18"
+bindsym $mod+F2 exec rofi -show run -lines 3 -eh 2 -width 100 -padding 800 -opacity "85" -font "System San Francisco Display 18"
 
 #bindsym $mod+F2 exec --no-startup-id i3-dmenu-desktop --dmenu='rofi -dmenu'
 bindsym $mod+F3 exec --no-startup-id rofi -show ssh
