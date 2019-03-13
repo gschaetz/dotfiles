@@ -208,7 +208,7 @@ bindsym XF86MonBrightnessDown exec xbacklight -dec 10 # decrease screen brightne
 # Lock after timeout
  exec --no-startup-id "~/.i3/autolock"
 # Lock on suspend:
- exec --no-startup-id "xss-lock -- i3lock -e -d -c 000000"
+ exec --no-startup-id "xss-lock -- i3lock -e -d -c $bg-color"
 
 bindsym $mod+F2 exec --no-startup-id i3-dmenu-desktop --dmenu='rofi -dmenu'
 bindsym $mod+F3 exec --no-startup-id rofi -show ssh
