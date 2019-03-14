@@ -110,7 +110,7 @@ bindsym $mod+a focus parent
 set $workspace1 "1: "
 set $workspace2 "2: "
 set $workspace3 "3: "
-set $workspace10 "0: "
+set $workspace10 "0: "
 
 # switch to workspace
 bindsym $mod+1 workspace $workspace1
