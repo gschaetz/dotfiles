@@ -180,6 +180,10 @@ assign [class="Fceux"] $workspace9
 assign [class="Thunderbird"] $workspace10
 assign [class="Gimp"] $workspace12
 assign [class="GParted"] $workspace12
+assign [class="etcher-electron"] $workspace12
+assign [class="cool-retro-term"] $workspace12
+assign [class="Audacity"] $workspace12
+
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
