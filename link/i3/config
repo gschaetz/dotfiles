@@ -123,7 +123,7 @@ bindsym $mod+a focus parent
 set $workspace1 "1: "
 set $workspace2 "2: "
 set $workspace3 "3: "
-set $workspace4 "4:"
+set $workspace4 "4: "
 set $workspace5 "5:"
 set $worksapce6 "6: "
 set $workspace7 "7: "
@@ -164,7 +164,15 @@ bindsym $mod+Shift+equal move container to workspace $workspace12
 #assign [class="Gnome-terminal"] $workspace1
 assign [class="Firefox"] $workspace2
 assign [class="Code"] $workspace3
+assign [class="keepassxc"] $workspace4
 
+assign [class="libreoffice-startcenter"] $workspace6
+assign [class="libreoffice-writer"] $workspace6
+assign [class="libreoffice-calc"] $workspace6
+assign [class="libreoffice-impress"] $workspace6
+assign [class="libreoffice-draw"] $workspace6
+assign [class="libreoffice-math"] $workspace6
+assign [class="libreoffice-base"] $workspace6
 assign [class="Slack"] $workspace7
 assign [class="Google-chrome"] $workspace8
 assign [class="Chromium"] $workspace8
