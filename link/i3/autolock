@@ -1,5 +1,5 @@
 exec xautolock -detectsleep \
--time 3 -locker "xset s activate" \
+-time 3 -locker "i3lock" \
 -notify 30 \
 -corners 000- \
 -notifier "notify-send -t 29000 -- 'LOCKING screen in 30 seconds'"#!/bin/sh
