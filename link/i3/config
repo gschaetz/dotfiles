@@ -223,7 +223,7 @@ bindsym $mod+r mode "resize"
 bar {
         font pango: DejaVu Sans Mono, fa-brands-400, fa-regular-400, fa-solid-900 8
         #status_command i3status -c ~/.i3/i3status.conf
-        ./customstatus.sh
+        status_command ./customstatus.sh
 }
 
 # Pulse Audio controls
