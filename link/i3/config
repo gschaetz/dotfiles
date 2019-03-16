@@ -222,7 +222,8 @@ bindsym $mod+r mode "resize"
 # finds out, if available)
 bar {
         font pango: DejaVu Sans Mono, fa-brands-400, fa-regular-400, fa-solid-900 8
-        status_command i3status -c ~/.i3/i3status.conf
+        #status_command i3status -c ~/.i3/i3status. conf
+        i3status -c ~/.i3/i3status.conf | while :; do read line; echo ": `xbacklight | cut -d '.' -f 1` | $line" || exit 1; done
 }
 
 # Pulse Audio controls
