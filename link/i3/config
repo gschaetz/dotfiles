@@ -250,9 +250,9 @@ bindsym XF86MonBrightnessDown exec xbacklight -dec 10 # decrease screen brightne
 # # ---------------------------------------------------------------------
 #
 # # Manual:
-bindsym $mod+KP_Enter exec "~/.local/bin/fuzzy_lock.sh"
+bindsym $mod+KP_Enter exec "~/.i3/fuzzy_lock.sh"
 
-exec xautolock -detectsleep -time 15 -locker -corners 000- '~/.local/bin/fuzzy_lock.sh' &
+exec xautolock -detectsleep -time 15 -locker -corners 000- '~/.i3/fuzzy_lock.sh' &
 
 # Lock after timeout
 # exec --no-startup-id "~/.i3/autolock"
