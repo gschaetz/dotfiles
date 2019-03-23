@@ -1,6 +1,7 @@
 # .bash_profile
 
 export DOTFILES=$HOME/.dotfiles
+export TZ='=US/Central'
 
 PATH=/sbin:/bin
 PATH=/usr/sbin:/usr/bin:$PATH
