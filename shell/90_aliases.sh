@@ -60,7 +60,7 @@ alias dps='docker ps'
 alias h='history'
 
 # IP addresses
-alias ip='dig +short myip.opendns.com @resolver1.opendns.com'
+alias myip='dig +short myip.opendns.com @resolver1.opendns.com'
 
 # One of @janmoesen’s ProTip™s
 for method in GET HEAD POST PUT DELETE TRACE OPTIONS; do
