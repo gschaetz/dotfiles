@@ -2,6 +2,10 @@
 
 export DOTFILES=$HOME/.dotfiles
 
+if [ -n "$DISPLAY"  ]; then
+  xset b off
+fi
+
 function source_files() {
   local file
 
