@@ -290,6 +290,7 @@ fi
 function awsp() {
   if [ $# -eq 0  ]; then
     cat ~/.aws/credentials | grep '\[';
+    aws configure list
   else 
     export AWS_PROFILE=$1
     env | grep 'AWS_PROFILE'
