@@ -285,3 +285,12 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
   }
 
 fi
+
+#set aws profile env variable quickly
+function awsp {
+  if [ $1 -eq 0  ]; then
+    cat ~/.aws/credentials | grep '\[';
+  else 
+    export AWS_PROFILE=$1
+  fi;
+}
