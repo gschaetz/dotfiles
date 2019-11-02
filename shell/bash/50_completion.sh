@@ -10,3 +10,7 @@ fi;
 if [ -e $DOTFILES/thirdparty/git-completion/git-completion.bash ]; then
   source $DOTFILES/thirdparty/git-completion/git-completion.bash
 fi
+if [ -r /usr/bin/aws_completer ];
+then
+    complete -C '/usr/bin/aws_completer' aws
+fi
