@@ -11,7 +11,7 @@ Plugin 'airblade/vim-gitgutter' " show git changes in gutter
 Plugin 'scrooloose/nerdtree' " directory tree explorer
 Plugin 'majutsushi/tagbar' " current file tag browser
 Plugin 'simnalamburt/vim-mundo' " treed view of undos
-Plugin 'lervag/wiki.vim' " a little wiki in vim
+" Plugin 'lervag/wiki.vim' " a little wiki in vim
 
 " editting related
 Plugin 'godlygeek/tabular' " align text on =, :, etc.
