@@ -96,6 +96,8 @@ alias list-functions='declare -F | cut -f3 -d" " | sort | egrep -v "^_"'
 #aws functions
 alias aws-regions='aws ec2 describe-regions --filters "Name=endpoint,Values=*us*" --output text'
 
+#other
+
 if [[ "$OSTYPE" == "darwin"* ]]; then
 
   if [[ -x /Applications/MacVim.app/Contents/MacOS/Vim ]]; then
