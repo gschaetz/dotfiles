@@ -5,12 +5,12 @@
 has_command ip && default_iface=$(ip -o -4 route show to default | awk '{print $5}')
 has_command route && route get default >/dev/null 2>&1 && default_iface=$(route get default | grep interface: | awk '{print $2}')
 
-if ls --color=auto -d . >/dev/null 2>&1; then
-  # echo "has GNU ls"
-  alias ls='command ls --color=auto -h -Fb --group-directories-first'
-elif has_command gls; then
+if has_command gls; then
   # echo "has GNU ls as gls"
   alias ls='command gls --color=auto -h -Fb --group-directories-first'
+elif ls --color=auto -d . >/dev/null 2>&1; then
+  # echo "has GNU ls"
+  alias ls='command ls --color=auto -h -Fb --group-directories-first'
 else
   # echo "probably has BSD ls"
   alias ls='command ls -h -Fb'
