@@ -1,4 +1,4 @@
-# this file defines functions or other things that are needed early
-function has_command() {
-  command -v "$@" >/dev/null 2>&1;
-}
+if [ -d "/opt/homebrew/" ]  
+then
+    export PATH="/opt/homebrew/bin:/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
+fi

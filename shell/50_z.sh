@@ -1,4 +1,5 @@
-if [ -d "/opt/homebrew/" ]  
-then
-    export PATH="/opt/homebrew/bin:/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
+if [[ "$DISABLE_Z" != "1" ]]; then
+  if [[ -e $DOTFILES/thirdparty/z/z.sh ]]; then
+    source $DOTFILES/thirdparty/z/z.sh
+  fi
 fi
