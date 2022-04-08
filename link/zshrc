@@ -21,3 +21,9 @@ source_files
 if [[ -f ~/.zshrc.local ]]; then
   source ~/.zshrc.local
 fi
+
+if [[ -d /etc/profile.d/ ]]; then
+  for file in $( ls /etc/profile.d/*.sh ); do
+    source ${file}
+  done
+fi
