@@ -150,3 +150,6 @@
 
 [include]
   path = ~/.gitconfig.local
+[user]
+  email = gary@schaetzkc.com
+  name = Gary Schaetz
