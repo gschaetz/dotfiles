@@ -28,7 +28,7 @@ if [[ -f ~/.bashrc.local ]]; then
   source ~/.bashrc.local
 fi
 
-if [[ -d /etc/profile.d/ ]]
+if [[ -d /etc/profile.d/ ]]; then
   for file in $( ls /etc/profile.d/*.sh ); do
     source ${file}
   done
