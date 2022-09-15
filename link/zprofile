@@ -5,6 +5,7 @@ PATH=/sbin:/bin
 PATH=/usr/sbin:/usr/bin:$PATH
 PATH=/usr/local/sbin:/usr/local/bin:$PATH
 PATH=$DOTFILES/sbin:$DOTFILES/bin:$PATH
+PATH=$HOME/.local/bin:$PATH
 PATH="/usr/local/opt/ruby/bin:/usr/local/lib/ruby/gems/3.0.0/bin:$PATH"
 PATH="$HOME/.gem/ruby/2.6.3/bin:$PATH"
 
