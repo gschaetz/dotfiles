@@ -125,3 +125,22 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 fi
 
 alias cls="clear"
+
+## kubectl
+alias kc="kubectl"
+# apply/delete
+alias kca="kubectl apply"
+alias kcaf="kubectl apply -f"
+alias kcd="kubectl delete"
+alias kcdf="kubectl delete -f"
+# gets 
+alias kcg="kubectl get"
+alias kcgp="kubectl get pods"
+alias kcgpa="kubectl get pods -A"
+alias kcgs="kubectl get services"
+alias kcgd="kubectl get deployments"
+alias kcgps="kubectl get pods,services"
+## istioctl
+alias ic="istioctl"
+alias icd="istioctl dashboard"
+
