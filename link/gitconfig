@@ -53,6 +53,9 @@
   # push will include new tags
   followTags = true
 
+  # create remote branches automatically
+  autoSetupRemote = true
+
 [branch]
   autosetuprebase = always
 
@@ -75,6 +78,15 @@
 [alias]
   # show all aliases
   alias = "!f() { git config -l | grep ^alias\\. | sort; }; f"
+
+  # branch
+  br = branch
+
+  # commit
+  ci = commit
+
+  # add and commit all changes
+  cmp = !git add -A && git commit -m && git push
 
   # short status
   st = status -s -b
@@ -150,6 +162,10 @@
 
 [include]
   path = ~/.gitconfig.local
+
 [user]
   email = gary@schaetzkc.com
   name = Gary Schaetz
+
+[pager]
+  branch = false
