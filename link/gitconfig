@@ -85,9 +85,6 @@
   # commit
   ci = commit
 
-  # add and commit all changes
-  cmp = !git add -A && git commit -m && git push
-
   # short status
   st = status -s -b
 
