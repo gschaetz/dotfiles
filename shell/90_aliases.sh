@@ -144,3 +144,5 @@ alias kcgps="kubectl get pods,services"
 alias ic="istioctl"
 alias icd="istioctl dashboard"
 
+# git helpers
+alias git-update="find . -mindepth 1 -maxdepth 1 -type d -print -exec git -C {} pull \;"
