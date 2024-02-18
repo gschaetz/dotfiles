@@ -145,4 +145,4 @@ alias ic="istioctl"
 alias icd="istioctl dashboard"
 
 # git helpers
-alias git-update="find . -mindepth 1 -maxdepth 1 -type d -print -exec git -C {} pull \;"
+alias git-update="find . -maxdepth 8 -name '.git' -prune -type d -printf '%h\n' | parallel 'echo {} && git -C {} pull'"
