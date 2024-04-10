@@ -140,6 +140,8 @@ alias kcgpa="kubectl get pods -A"
 alias kcgs="kubectl get services"
 alias kcgd="kubectl get deployments"
 alias kcgps="kubectl get pods,services"
+# misc
+alias kcpf="kubectl proxy-foward"
 ## istioctl
 alias ic="istioctl"
 alias icd="istioctl dashboard"
