@@ -41,11 +41,13 @@ bash -c "$(curl -fsSL https://raw.github.com/gschaetz/dotfiles/master/bin/bootst
 - **Node.js**: nodenv integration
 - **Ruby**: rbenv integration  
 - **Go**: goenv integration
-- **Homebrew**: Brewfile for package management (macOS)
+- **Tmux**: Terminal multiplexer configuration
 
 ### Window Manager (Linux)
 
 - **i3wm**: Complete i3 configuration with custom status bar and scripts
+
+> **Note:** This repository focuses on **shell and editor configurations**. For system-level setup (package management, macOS preferences, desktop environments), see the companion [mousehat](https://github.com/gschaetz/mousehat) repository.
 
 ## 📁 Project Structure
 
@@ -186,39 +188,16 @@ set number
 colorscheme desert
 ```
 
-### macOS System Setup
+### System-Level Configuration
 
-Configure macOS system preferences automatically:
+For system-level setup including package management, macOS preferences, and desktop environment configuration, use the companion [mousehat](https://github.com/gschaetz/mousehat) repository which provides:
 
-```sh
-~/.dotfiles/bin/dot-init-macOS
-```
+- **Package Management**: Homebrew (macOS), apt (Linux), automated installation
+- **macOS Preferences**: Complete system defaults configuration via Ansible
+- **Desktop Environments**: GNOME, i3wm setup and customization
+- **Application Deployment**: Docker-based applications with desktop integration
 
-This script configures:
-- System preferences (scrollbars, smart quotes, etc.)
-- Keyboard settings (repeat rate, delay)
-- Trackpad settings (tap to click, tracking speed)
-- Finder preferences (show extensions, default views)
-- Dock settings (autohide, position)
-- Safari, Terminal, and other app settings
-- Power management settings
-
-**Review the script before running** to ensure settings match your preferences.
-
-### Homebrew Package Management
-
-Install all packages defined in Brewfile:
-
-```sh
-cd ~/.dotfiles
-brew bundle
-```
-
-Clean up packages not in Brewfile:
-
-```sh
-brew bundle cleanup --force
-```
+This keeps dotfiles focused on portable shell/editor configurations while mousehat handles machine-specific setup.
 
 ## 🔧 Key Features
 
@@ -280,19 +259,6 @@ rbenv global 3.2.0
 goenv install 1.20.0
 goenv global 1.20.0
 ```
-
-## 📦 Included Packages (Brewfile)
-
-Core utilities and tools installed via Homebrew:
-
-- **Search & Text**: ack, ripgrep, the_silver_searcher, fzf
-- **Development**: go, node, maven, rust, lua
-- **Version Control**: git (configured separately)
-- **Monitoring**: htop, ngrep, nmap
-- **Build Tools**: cmake, coreutils, dos2unix
-- **Container Tools**: kubernetes-cli, kubernetes-helm
-- **Utilities**: jq, wget, tree, tmux, trash
-- And more...
 
 ## 🎨 Vim Configuration
 

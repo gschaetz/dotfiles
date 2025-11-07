@@ -1,4 +1,0 @@
-backend = "glx";
-vsync = "opengl-swc";
-unredir-if-possible = false;
-
