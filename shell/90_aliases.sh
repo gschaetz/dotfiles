@@ -152,6 +152,6 @@ alias git-update="find . -maxdepth 8 -name '.git' -prune -type d -printf '%h\n' 
 # ai helpers
 
 # Switch to Local LM Studio (Default port 1234)
-alias claude-local='export ANTHROPIC_BASE_URL="http://localhost:1234" && export ANTHROPIC_AUTH_TOKEN="lmstudio" && echo "Switched to Local Model"'
+alias claude-local='export ANTHROPIC_BASE_URL="http://localhost:1234" && export ANTHROPIC_API_KEY="lmstudio" && export _SAVED_ANTHROPIC_AUTH_TOKEN="$ANTHROPIC_AUTH_TOKEN" && unset ANTHROPIC_AUTH_TOKEN && echo "Switched to Local Model"'
 # Switch back to Claude Pro (Official API)
-alias claude-pro='unset ANTHROPIC_BASE_URL && unset ANTHROPIC_AUTH_TOKEN && echo "Switched to Claude Pro"'
+alias claude-pro='unset ANTHROPIC_BASE_URL && unset ANTHROPIC_API_KEY && [ -n "$_SAVED_ANTHROPIC_AUTH_TOKEN" ] && export ANTHROPIC_AUTH_TOKEN="$_SAVED_ANTHROPIC_AUTH_TOKEN" && unset _SAVED_ANTHROPIC_AUTH_TOKEN && echo "Switched to Claude Pro"'
