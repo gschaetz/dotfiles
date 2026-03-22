@@ -59,7 +59,9 @@ function install() {
   if [[ -d "$DOTFILES" ]]; then
     cd "$DOTFILES"
     l_ln "Updating from repo"
+    git stash
     git pull
+    git stash pop
     #git submodule update --init --recursive --rebase --quiet
     git submodule update --init --recursive --remote --rebase --quiet
   else
