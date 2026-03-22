@@ -148,3 +148,10 @@ alias icd="istioctl dashboard"
 
 # git helpers
 alias git-update="find . -maxdepth 8 -name '.git' -prune -type d -printf '%h\n' | parallel 'echo {} && git -C {} pull'"
+
+# ai helpers
+
+# Switch to Local LM Studio (Default port 1234)
+alias claude-local='export ANTHROPIC_BASE_URL="http://localhost:1234" && export ANTHROPIC_AUTH_TOKEN="lmstudio" && echo "Switched to Local Model"'
+# Switch back to Claude Pro (Official API)
+alias claude-pro='unset ANTHROPIC_BASE_URL && unset ANTHROPIC_AUTH_TOKEN && echo "Switched to Claude Pro"'
