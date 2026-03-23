@@ -392,25 +392,26 @@ function lastweek() {
 # HELP
 # =============================================================================
 
-_fn_source="$DOTFILES/shell/50_functions.sh"
-
 # @category: help
-# @desc: List all function categories defined in 50_functions.sh
-fn-categories() {
-  awk '/^# @category:/ { print $3 }' "$_fn_source" | sort -u
-}
-
-# @category: help
-# @desc: List functions with descriptions, optionally filtered by category
+# @desc: List function categories (no args) or functions for a category
 fn-list() {
   local filter="${1:-}"
+  local src="$DOTFILES/shell/50_functions.sh"
+
+  if [[ -z "$filter" ]]; then
+    awk '/^[[:space:]]*# @category:/ { print $3 }' "$src" | sort -u
+    return
+  fi
+
   awk -v filter="$filter" '
-    /^# @category:/ { cat = $3 }
-    /^# @desc:/     { desc = substr($0, index($0, $3)) }
-    /^[a-zA-Z_][a-zA-Z0-9_-]*[[:space:]]*\(\)/ {
-      name = $1; gsub(/\(\).*/, "", name)
-      if (filter == "" || cat == filter)
+    /^[[:space:]]*# @category:/ { cat = $3 }
+    /^[[:space:]]*# @desc:/     { desc = substr($0, index($0, $3)) }
+    /^[[:space:]]*(function[[:space:]]+)?[a-zA-Z_][a-zA-Z0-9_-]*[[:space:]]*\(\)/ {
+      name = $0
+      gsub(/^[[:space:]]*(function[[:space:]]+)?/, "", name)
+      gsub(/[[:space:]]*\(\).*/, "", name)
+      if (cat == filter)
         printf "  %-22s %-14s %s\n", name, "[" cat "]", desc
     }
-  ' "$_fn_source"
+  ' "$src"
 }
