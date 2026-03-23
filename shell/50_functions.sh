@@ -16,7 +16,7 @@ aider-local() {
 # @category: ai
 # @desc: Start an MLX LM server on M5 Pro (default: Qwen3.5-35B-A3B)
 mlx-serve() {
-  local MODEL_PATH="${1:-$HOME/.lmstudio/models/mlx-community/Qwen3.5-35B-A3B-MLX-4bit}"
+  local MODEL_PATH="${1:-$HOME/.lmstudio/models/mlx-community/Qwen3.5-35B-A3B-MLX-8bit}"
 
   echo "Starting MLX Server on M5 Pro..."
   echo "Model: $MODEL_PATH"
@@ -30,6 +30,14 @@ mlx-serve() {
 
   MLX_PID=$!
   echo "Server running (PID: $MLX_PID). Use 'mlx-stop' to quit."
+}
+
+# @category: ai
+# @desc: Monitor M5 Pro GPU, ANE, and CPU power usage via powermetrics
+mlx-mon() {
+  echo "📊 Monitoring M5 Pro Hardware (Ctrl+C to stop)..."
+  # This avoids the cluster-naming bug by looking at raw GPU/ANE power
+  sudo powermetrics --samplers gpu_power,cpu_power -i 1000 | grep -E "GPU|ANE|Combined|CPU Power"
 }
 
 # @category: ai
