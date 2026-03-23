@@ -221,19 +221,17 @@ The `shell/` directory contains modular scripts loaded by both Bash and Zsh:
 Built-in helpers let you browse everything without opening source files:
 
 ```sh
-# List all alias categories
-alias-categories
-
-# List all aliases (optionally filter by category)
-alias-list
-alias-list docker
-
 # List all function categories
-fn-categories
-
-# List all functions (optionally filter by category)
 fn-list
+
+# List functions in a category
 fn-list files
+
+# List all alias categories
+alias-list
+
+# List aliases in a category
+alias-list docker
 ```
 
 Example output of `alias-list docker`:
