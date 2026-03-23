@@ -10,7 +10,7 @@ aider-local() {
   export OPENAI_API_BASE="http://127.0.0.1"
   export OPENAI_API_KEY="lmstudio"
 
-  uvx aider --model "$MODEL" --architect
+  uvx --from aider-chat aider --model "$MODEL" --architect --no-show-model-warnings
 }
 
 # @category: ai
