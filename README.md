@@ -216,6 +216,35 @@ The `shell/` directory contains modular scripts loaded by both Bash and Zsh:
 | `50_z.sh` | z directory jumper |
 | `90_aliases.sh` | Common aliases |
 
+### Discovering Aliases & Functions
+
+Built-in helpers let you browse everything without opening source files:
+
+```sh
+# List all alias categories
+alias-categories
+
+# List all aliases (optionally filter by category)
+alias-list
+alias-list docker
+
+# List all function categories
+fn-categories
+
+# List all functions (optionally filter by category)
+fn-list
+fn-list files
+```
+
+Example output of `alias-list docker`:
+```
+  d                      [docker]        docker shorthand
+  db                     [docker]        Build a Docker image from the current directory
+  dcomp                  [docker]        docker-compose shorthand
+  drun                   [docker]        Run an interactive auto-removing Docker container
+  ...
+```
+
 ### Custom Functions
 
 Available in your shell after installation:
@@ -312,6 +341,15 @@ Windows-specific scripts:
 - `bin/bootstrap-windows-extra.cmd` - Additional Windows setup
 
 ## 🔄 Updating
+
+### Shell Aliases (easiest)
+
+```sh
+dotfiles-update   # stash local changes, pull, update submodules, stash pop, reload shell
+dotfiles-reload   # reload shell config without pulling (source ~/.zshrc)
+```
+
+### Manually
 
 If you used the **link** method:
 
