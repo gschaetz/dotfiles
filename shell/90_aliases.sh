@@ -332,12 +332,34 @@ fi
 _alias_source="$DOTFILES/shell/90_aliases.sh"
 
 # @category: help
-# @desc: List alias categories (no args) or aliases for a category
+# @desc: List alias categories (no args), aliases for a category, or all aliases sorted by category
 alias-list() {
   local filter="${1:-}"
 
   if [[ -z "$filter" ]]; then
     awk '/^[[:space:]]*# @category:/ { print $3 }' "$_alias_source" | sort -u
+    return
+  fi
+
+  if [[ "$filter" == "all" ]]; then
+    awk '
+      /^[[:space:]]*# @category:/ { cat = $3 }
+      /^[[:space:]]*# @desc:/     { desc = substr($0, index($0, $3)) }
+      /^[[:space:]]*alias [a-zA-Z_]/ {
+        name = $2; gsub(/=.*/, "", name)
+        printf "%s\034%-22s %-14s %s\n", cat, name, "[" cat "]", desc
+      }
+    ' "$_alias_source" | sort | awk -F'\034' '
+      BEGIN { prev = "" }
+      {
+        if ($1 != prev) {
+          if (prev != "") print ""
+          print "[" $1 "]"
+          prev = $1
+        }
+        print "  " $2
+      }
+    '
     return
   fi
 

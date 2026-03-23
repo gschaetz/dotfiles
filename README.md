@@ -227,11 +227,17 @@ fn-list
 # List functions in a category
 fn-list files
 
+# List all functions sorted by category
+fn-list all
+
 # List all alias categories
 alias-list
 
 # List aliases in a category
 alias-list docker
+
+# List all aliases sorted by category
+alias-list all
 ```
 
 Example output of `alias-list docker`:

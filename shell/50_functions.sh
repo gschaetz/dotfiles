@@ -393,13 +393,37 @@ function lastweek() {
 # =============================================================================
 
 # @category: help
-# @desc: List function categories (no args) or functions for a category
+# @desc: List function categories (no args), functions for a category, or all functions sorted by category
 fn-list() {
   local filter="${1:-}"
   local src="$DOTFILES/shell/50_functions.sh"
 
   if [[ -z "$filter" ]]; then
     awk '/^[[:space:]]*# @category:/ { print $3 }' "$src" | sort -u
+    return
+  fi
+
+  if [[ "$filter" == "all" ]]; then
+    awk '
+      /^[[:space:]]*# @category:/ { cat = $3 }
+      /^[[:space:]]*# @desc:/     { desc = substr($0, index($0, $3)) }
+      /^[[:space:]]*(function[[:space:]]+)?[a-zA-Z_][a-zA-Z0-9_-]*[[:space:]]*\(\)/ {
+        name = $0
+        gsub(/^[[:space:]]*(function[[:space:]]+)?/, "", name)
+        gsub(/[[:space:]]*\(\).*/, "", name)
+        printf "%s\034%-22s %-14s %s\n", cat, name, "[" cat "]", desc
+      }
+    ' "$src" | sort | awk -F'\034' '
+      BEGIN { prev = "" }
+      {
+        if ($1 != prev) {
+          if (prev != "") print ""
+          print "[" $1 "]"
+          prev = $1
+        }
+        print "  " $2
+      }
+    '
     return
   fi
 
