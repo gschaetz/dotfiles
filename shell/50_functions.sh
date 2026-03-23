@@ -16,15 +16,14 @@ aider-local() {
 # @category: ai
 # @desc: Start an MLX LM server on M5 Pro (default: Qwen3.5-35B-A3B)
 mlx-serve() {
-  local MODEL_PATH="${1:-$HOME/.lmstudio/models/mlx-community/Qwen3.5-35B-A3B-MLX-8bit}"
+  local MODEL_PATH="${1:-$HOME/.lmstudio/models/mlx-community/Qwen3.5-35B-A3B-8bit}"
 
   echo "Starting MLX Server on M5 Pro..."
   echo "Model: $MODEL_PATH"
 
-  python -m mlx_lm.server \
+  mlx_lm.server \
     --model "$MODEL_PATH" \
     --chat-template chatml \
-    --limit-mm-per-prompt 0 \
     --host 127.0.0.1 \
     --port 8080 &
 
