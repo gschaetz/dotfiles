@@ -20,8 +20,9 @@ mlx-serve() {
   local VENV="$HOME/.venv-mlx"
 
   if [[ ! -f "$VENV/bin/activate" ]]; then
-    echo "venv not found at $VENV — run: python3.12 -m venv $VENV && source $VENV/bin/activate && pip install mlx-lm fastapi uvicorn pydantic"
-    return 1
+    echo "venv not found at $VENV — creating..."
+    python3 -m venv "$VENV" || { echo "Failed to create venv"; return 1; }
+    "$VENV/bin/pip" install mlx-lm fastapi uvicorn pydantic || { echo "Failed to install dependencies"; return 1; }
   fi
 
   echo "Starting MLX Server on M5 Pro..."
