@@ -17,11 +17,17 @@ aider-local() {
 # @desc: Start an MLX LM server on M5 Pro (default: Qwen3.5-35B-A3B)
 mlx-serve() {
   local MODEL_PATH="${1:-$HOME/.lmstudio/models/mlx-community/Qwen3.5-35B-A3B-8bit}"
+  local VENV="$HOME/.venv-mlx"
+
+  if [[ ! -f "$VENV/bin/activate" ]]; then
+    echo "venv not found at $VENV — run: python3.12 -m venv $VENV && source $VENV/bin/activate && pip install mlx-lm fastapi uvicorn pydantic"
+    return 1
+  fi
 
   echo "Starting MLX Server on M5 Pro..."
   echo "Model: $MODEL_PATH"
 
-  mlx_lm.server \
+  "$VENV/bin/mlx_lm.server" \
     --model "$MODEL_PATH" \
     --chat-template chatml \
     --host 127.0.0.1 \
