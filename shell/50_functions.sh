@@ -30,7 +30,6 @@ mlx-serve() {
 
   "$VENV/bin/mlx_lm.server" \
     --model "$MODEL_PATH" \
-    --chat-template chatml \
     --host 127.0.0.1 \
     --port 8080 &
 
