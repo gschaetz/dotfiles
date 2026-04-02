@@ -18,6 +18,10 @@ aider-local() {
 mlx-serve() {
   local MODEL_PATH="${1:-$HOME/.lmstudio/models/mlx-community/Qwen3.5-35B-A3B-8bit}"
   local VENV="$HOME/.venv-mlx"
+  local LOG_FILE="/tmp/mlx_server.log"
+  local READY_PATTERN="Starting httpd at 127.0.0.1 on port 8080|GET /v1/models|POST /chat/completions"
+  local MLX_PID
+  local attempt
 
   if [[ ! -f "$VENV/bin/activate" ]]; then
     echo "venv not found at $VENV — creating..."
@@ -25,16 +29,71 @@ mlx-serve() {
     "$VENV/bin/pip" install mlx-lm fastapi uvicorn pydantic || { echo "Failed to install dependencies"; return 1; }
   fi
 
+  if pgrep -f "mlx_lm.server.*--port 8080" >/dev/null 2>&1; then
+    echo "MLX server already appears to be running."
+    mlx-status "$LOG_FILE"
+    return $?
+  fi
+
   echo "Starting MLX Server on M5 Pro..."
   echo "Model: $MODEL_PATH"
+
+  # Force remove the old log to avoid stale readiness checks.
+  rm -f "$LOG_FILE"
 
   "$VENV/bin/mlx_lm.server" \
     --model "$MODEL_PATH" \
     --host 127.0.0.1 \
-    --port 8080 &
+    --port 8080 \
+    --use-default-chat-template \
+    --prompt-cache-size 65536 \
+    --prefill-step-size 8192 \
+    --max-tokens 16384 > "$LOG_FILE" 2>&1 &
 
   MLX_PID=$!
-  echo "Server running (PID: $MLX_PID). Use 'mlx-stop' to quit."
+
+  for ((attempt = 1; attempt <= 20; attempt++)); do
+    if [[ -f "$LOG_FILE" ]] && grep -Eq "$READY_PATTERN" "$LOG_FILE"; then
+      echo "Server running (PID: $MLX_PID). Log looks healthy."
+      tail -n 10 "$LOG_FILE"
+      return 0
+    fi
+
+    if ! kill -0 "$MLX_PID" 2>/dev/null; then
+      echo "MLX server exited during startup. Last log lines:"
+      tail -n 40 "$LOG_FILE" 2>/dev/null
+      return 1
+    fi
+
+    sleep 1
+  done
+
+  echo "MLX server started (PID: $MLX_PID), but readiness was not confirmed within 20s."
+  echo "Check the log with: tail -f $LOG_FILE"
+  tail -n 20 "$LOG_FILE" 2>/dev/null
+  return 1
+}
+
+# @category: ai
+# @desc: Check MLX server health from the startup log
+mlx-status() {
+  local LOG_FILE="${1:-/tmp/mlx_server.log}"
+  local READY_PATTERN="Starting httpd at 127.0.0.1 on port 8080|GET /v1/models|POST /chat/completions"
+
+  if [[ ! -f "$LOG_FILE" ]]; then
+    echo "No MLX log found at $LOG_FILE"
+    return 1
+  fi
+
+  if pgrep -f "mlx_lm.server" >/dev/null 2>&1 && grep -Eq "$READY_PATTERN" "$LOG_FILE"; then
+    echo "MLX server looks up."
+    tail -n 10 "$LOG_FILE"
+    return 0
+  fi
+
+  echo "MLX server is not confirmed as running yet. Recent log lines:"
+  tail -n 20 "$LOG_FILE"
+  return 1
 }
 
 # @category: ai

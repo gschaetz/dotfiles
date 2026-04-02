@@ -7,5 +7,13 @@ if [[ "$DISABLE_PYENV" != "1" ]]; then
     # export PYTHON_CONFIGURE_OPTS="--enable-framework"
     eval "$(pyenv init -)"
     eval "$(pyenv virtualenv-init -)"
+    # pyenv-virtualenv sets _PYENV_VH_PWD=$PWD in its precmd hook as a caching
+    # optimization, but zsh's cdable_vars treats variables holding absolute paths
+    # as named directories, causing %~ in PS1 to show ~_PYENV_VH_PWD instead of
+    # the actual path. This hook clears it after pyenv's hook runs.
+    if [[ -n "${ZSH_VERSION-}" ]]; then
+      _pyenv_vhpwd_prompt_fix() { unset _PYENV_VH_PWD; }
+      precmd_functions+=(_pyenv_vhpwd_prompt_fix)
+    fi
   fi
 fi

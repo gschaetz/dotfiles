@@ -21,3 +21,7 @@ link/vim/vimrc.local
 link/vim/vimrc.bundles.local
 link/fonts/.uuid
 .aider*
+
+.anyclaude-cache-metrics.json
+.anyclauderc.json
+.claude/settings.local.json
