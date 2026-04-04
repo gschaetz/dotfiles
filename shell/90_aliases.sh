@@ -183,6 +183,15 @@ alias dexec='docker exec'
 # @category: docker
 # @desc: docker ps shorthand
 alias dps='docker ps'
+# @category: docker
+# @desc: docker logs shorthand
+alias dl='docker logs'
+# @category: docker
+# @desc: docker rmi shorthand
+alias drmi='docker rmi'
+# @category: docker
+# @desc: docker system prune
+alias dprune='docker system prune -f'
 
 # =============================================================================
 # SHELL
@@ -210,6 +219,24 @@ alias aws-profiles='cat ~/.aws/credentials | grep "^\["'
 # @category: git
 # @desc: Pull latest changes across all nested git repos in parallel
 alias git-update="find . -maxdepth 8 -name '.git' -prune -type d -printf '%h\n' | parallel 'echo {} && git -C {} pull'"
+# @category: git
+# @desc: git shorthand
+alias g='git'
+# @category: git
+# @desc: git add
+alias ga='git add'
+# @category: git
+# @desc: git commit
+alias gc='git commit'
+# @category: git
+# @desc: git push
+alias gp='git push'
+# @category: git
+# @desc: git pull
+alias gl='git pull'
+# @category: git
+# @desc: git diff
+alias gd='git diff'
 
 # =============================================================================
 # KUBECTL
@@ -250,7 +277,7 @@ alias kcgd="kubectl get deployments"
 alias kcgps="kubectl get pods,services"
 # @category: kubectl
 # @desc: kubectl port-forward
-alias kcpf="kubectl proxy-foward"
+alias kcpf="kubectl port-forward"
 # @category: kubectl
 # @desc: istioctl shorthand
 alias ic="istioctl"
@@ -275,7 +302,11 @@ alias dotfiles-update='git -C $DOTFILES stash && git -C $DOTFILES pull && git -C
 
 # @category: ai
 # @desc: Switch to a local LM Studio model (default port 1234)
-alias claude-local='export ANTHROPIC_BASE_URL="http://localhost:1234" && export ANTHROPIC_AUTH_TOKEN="lmstudio" && echo "Switched to Local Model"'
+alias claude-local='export ANTHROPIC_BASE_URL="http://localhost:8080" && \
+export ANTHROPIC_AUTH_TOKEN="lmstudio" && \
+export CLAUDE_CODE_ATTRIBUTION_HEADER=false && \
+export CLAUDE_CODE_DISABLE_GIT_INSTRUCTIONS=1 && \
+echo "Switched to Local Model"'
 # @category: ai
 # @desc: Switch back to the official Claude API
 alias claude-pro='unset ANTHROPIC_BASE_URL && unset ANTHROPIC_AUTH_TOKEN && echo "Switched to Claude Pro"'

@@ -3,20 +3,31 @@
 # =============================================================================
 
 # @category: ai
-# @desc: Launch aider via uvx against a local LM Studio model
+# @desc: Launch aider via uvx against a local model (default: LM Studio on :1234)
 aider-local() {
-  local MODEL="${1:-openai/qwen3.5-35b-a3b}"
+  local MODEL="${1:-openai/bartowski/Qwen2.5-Coder-32B-Instruct-GGUF}"
+  local BASE_URL="${AIDER_LOCAL_BASE_URL:-http://127.0.0.1:1234/v1}"
 
-  export OPENAI_API_BASE="http://127.0.0.1"
-  export OPENAI_API_KEY="lmstudio"
-
-  uvx --from aider-chat aider --model "$MODEL" --architect --no-show-model-warnings
+  env OPENAI_API_BASE="$BASE_URL" \
+      OPENAI_API_KEY="lmstudio" \
+    uvx --from aider-chat aider \
+      --model "$MODEL" \
+      --weak-model "$MODEL" \
+      --editor-model "$MODEL" \
+      --architect \
+      --no-show-model-warnings
 }
 
 # @category: ai
-# @desc: Start an MLX LM server on M5 Pro (default: Qwen3.5-35B-A3B)
+# @desc: Launch aider against the local mlx-serve instance on :8080
+aider-mlx() {
+  AIDER_LOCAL_BASE_URL="http://127.0.0.1:8080/v1" aider-local "${@}"
+}
+
+# @category: ai
+# @desc: Start an MLX LM server on M5 Pro (default: Qwen3.5-35B-A3B-4bit)
 mlx-serve() {
-  local MODEL_PATH="${1:-$HOME/.lmstudio/models/mlx-community/Qwen3.5-35B-A3B-8bit}"
+  local MLX_MODEL="${1:-$HOME/.lmstudio/models/bartowski/Qwen2.5-Coder-32B-Instruct-GGUF/}"
   local VENV="$HOME/.venv-mlx"
   local LOG_FILE="/tmp/mlx_server.log"
   local READY_PATTERN="Starting httpd at 127.0.0.1 on port 8080|GET /v1/models|POST /chat/completions"
@@ -36,23 +47,30 @@ mlx-serve() {
   fi
 
   echo "Starting MLX Server on M5 Pro..."
-  echo "Model: $MODEL_PATH"
+  echo "Model: $MLX_MODEL"
 
   # Force remove the old log to avoid stale readiness checks.
   rm -f "$LOG_FILE"
 
+  # --prompt-cache-size 131072  : 128k token prefix cache; 64GB RAM has plenty of headroom
+  # --max-kv-size 131072        : prevents rotating KV cache from silently evicting the prefix on overflow
+  # --prefill-step-size 8192    : chunked prefill reduces peak memory spikes on long coding prompts
+  # --max-tokens 128000         : high ceiling so large file writes aren't truncated mid-output
+  # --log-level DEBUG           : surfaces cache-hit/miss lines useful for diagnosing slow turns
   "$VENV/bin/mlx_lm.server" \
-    --model "$MODEL_PATH" \
+    --model "$MLX_MODEL" \
     --host 127.0.0.1 \
     --port 8080 \
     --use-default-chat-template \
-    --prompt-cache-size 65536 \
+    --prompt-cache-size 131072 \
+    --max-kv-size 131072 \
     --prefill-step-size 8192 \
-    --max-tokens 16384 > "$LOG_FILE" 2>&1 &
+    --max-tokens 128000 \
+    --log-level DEBUG > "$LOG_FILE" 2>&1 &
 
   MLX_PID=$!
 
-  for ((attempt = 1; attempt <= 20; attempt++)); do
+  for ((attempt = 1; attempt <= 30; attempt++)); do
     if [[ -f "$LOG_FILE" ]] && grep -Eq "$READY_PATTERN" "$LOG_FILE"; then
       echo "Server running (PID: $MLX_PID). Log looks healthy."
       tail -n 10 "$LOG_FILE"
@@ -68,7 +86,7 @@ mlx-serve() {
     sleep 1
   done
 
-  echo "MLX server started (PID: $MLX_PID), but readiness was not confirmed within 20s."
+  echo "MLX server started (PID: $MLX_PID), but readiness was not confirmed within 30s."
   echo "Check the log with: tail -f $LOG_FILE"
   tail -n 20 "$LOG_FILE" 2>/dev/null
   return 1
@@ -111,6 +129,21 @@ mlx-stop() {
   pkill -f "mlx_lm.server"
   echo "Done."
 }
+
+# @category: ai
+# @desc: Start MLX LM server with default model (legacy wrapper)
+mlx-server() {
+  local MLX_MODEL="${1:-$MLX_MODEL}"
+  if [[ -z "$MLX_MODEL" ]]; then
+    MLX_MODEL="/Users/gschaetz/.lmstudio/models/mlx-community/Llama-3.3-70B-Instruct-4bit"
+  fi
+
+  export MLX_MODEL
+  ~/.local/mlx-server/bin/python3 proxy/server.py
+}
+
+# Note: Use mlx-serve instead for the full-featured server with health checks,
+# readiness confirmation, and optimized defaults. mlx-server is kept for legacy compatibility.
 
 # =============================================================================
 # AWS
@@ -420,8 +453,8 @@ function did() {
   then
     # log the entry from the command line
     message="$*"
-    touch $done_file
-    echo -e "### $timestamp\n- $message\n\n$(cat $done_file)" >| "$done_file"
+    touch "$done_file"
+    echo -e "### $timestamp\n- $message\n\n$(cat "$done_file")" >| "$done_file"
   else
     # no entry input, do this in vim
     vim +"normal ggO$timestamp" +'normal o' +'normal ggo- ' +'startinsert!' "$done_file"
