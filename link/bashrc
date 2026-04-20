@@ -2,7 +2,7 @@
 
 export DOTFILES=$HOME/.dotfiles
 
-if [ -n "$DISPLAY"  ]; then
+if [ -n "$DISPLAY" ] && command -v xset &>/dev/null; then
   xset b off
 fi
 

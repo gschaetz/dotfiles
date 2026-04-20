@@ -1,4 +1,4 @@
-if [[ "$DISABLE_PYENV" != "1" ]]; then
+if [[ "$DISABLE_PYENV" != "1" ]] && ! is_windows; then
   if [[ -e $DOTFILES/thirdparty/pyenv/bin/pyenv ]]; then
     export PATH=$DOTFILES/thirdparty/pyenv/bin:$PATH
     # https://github.com/yyuu/pyenv/wiki#how-to-build-cpython-with-framework-support-on-os-x
