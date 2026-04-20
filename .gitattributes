@@ -1,0 +1,15 @@
+# Force LF line endings for all text files
+* text=auto eol=lf
+
+# Explicitly enforce LF for shell scripts
+*.sh text eol=lf
+*.zsh text eol=lf
+*.zshrc text eol=lf
+*.bash text eol=lf
+*.bshrc text eol=lf
+*.profile text eol=lf
+*.tcsh text eol=lf
+
+# Windows batch files need CRLF to work on Windows
+*.cmd text eol=crlf
+*.bat text eol=crlf
